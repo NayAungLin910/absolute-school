@@ -60,4 +60,5 @@ Students will be able to download files the teachers uploaded at the sections of
 </p>
 <br/>
 <h3>Some of the interfaces of the web app</h3>
+<img href="https://github.com/NayAungLin910/absolute-school/blob/master/public/icons/profile.png" />
 ![profile](https://github.com/NayAungLin910/absolute-school/blob/master/public/icons/profile.png?raw=true)
