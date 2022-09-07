@@ -8,7 +8,7 @@ Absolute School is a small online school web project that has mutiple account ty
 <h3>How to Install?</h3>
 <br/>
 <p align="justify">
-!Please make sure you have git installed in your personal computer.
+Please make sure you have git installed in your personal computer!
 </p>
 <br/>
 <ul>
