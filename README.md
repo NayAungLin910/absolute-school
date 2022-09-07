@@ -60,5 +60,14 @@ Students will be able to download files the teachers uploaded at the sections of
 </p>
 <br/>
 <h3>Some of the interfaces of the web app</h3>
-<img src="https://github.com/NayAungLin910/absolute-school/blob/master/public/icons/profile.png" />
-![profile](https://github.com/NayAungLin910/absolute-school/blob/master/public/icons/profile.png?raw=true)
+<br/>
+<img alt="statistics" src="https://github.com/NayAungLin910/absolute-school/blob/master/public/icons/statistics.png" />
+<br/>
+<img alt="search student" src="https://github.com/NayAungLin910/absolute-school/blob/master/public/icons/search_student.png" />
+<br/>
+<img alt="subject_view" src="https://github.com/NayAungLin910/absolute-school/blob/master/public/icons/subject_view.png" />
+<br/>
+<img alt="subjects" src="https://github.com/NayAungLin910/absolute-school/blob/master/public/icons/subjects.png" />
+<br/>
+<img alt="profile" src="https://github.com/NayAungLin910/absolute-school/blob/master/public/icons/profile.png" />
+
