@@ -46,7 +46,7 @@ An admin will be able to approve the registered account of moderators, teachers 
 <h3>Moderator Access</h3>
 <br/>
 <p align="justify">
-Moderators will also be able to do most of the features that the the admin can except they will not be permitted to delete other moderator accounts.
+Moderators will also be able to do most of the features that the the admin can, except they will not be permitted to delete other moderator accounts.
 </p>
 <br/>
 <h3>Teacher Access</h3>
