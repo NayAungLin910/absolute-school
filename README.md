@@ -28,7 +28,7 @@ Now you will be able to run the project by running commands like <code>php artis
 <br/>
 <h3>Using the App</h3>
 <p align="justify">
-After running the project by running commands mentoined above please go to the route "http://127.0.0.1:8000/login/student" in order to login. There you will be able to choose to login or register your account as a student, teacher, or moderator. But something you will notice that there is no option to login as an admin described in the navbar. You can try to login as an admin by simply replacing the "student" text with "admin" in the adress bar which will change the address into "http://127.0.0.1:8000/login/admin". Some of the accounts built as default during database seeding are -
+After running the project by running commands mentoined above please go to the route "http://127.0.0.1:8000/login/student" in order to login. There you will be able to choose to login or register your account as a student, teacher, or moderator. But something you will notice is that there is no option to login as an admin described in the navbar. You can try to login as an admin by simply replacing the "student" text with "admin" in the adress bar which will change the address into "http://127.0.0.1:8000/login/admin". Some of the accounts built as default during database seeding are -
 </p>
 <br/>
 <ul>
