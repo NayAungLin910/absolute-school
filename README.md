@@ -43,6 +43,7 @@ After running the project by running commands mentoined above please go to the r
 <p align="justify">
 An admin will be able to approve the registered account of moderators, teachers and students. Only after getting approved that the accounts will be able to be logged in by the users. An admin will also be able to search and delete accounts, create batches and subjects, assign batch to the users and also check statistics.
 </p>
+<br/>
 <h3>Moderator Access</h3>
 <br/>
 <p align="justify">
