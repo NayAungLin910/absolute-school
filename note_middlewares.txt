@@ -1,0 +1,7 @@
+AdminOnly
+AdminMod
+TeacherOnly
+TeacherStudent
+StudentOnly
+NotAuth
+AuthOnly

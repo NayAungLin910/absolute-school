@@ -1,0 +1,39 @@
+admin
+=====
+id name email password
+
+moderator
+========
+id name email password salary approved('yes', 'no')
+
+teacher
+=======
+id name email image password salary approved('yes', 'no')
+
+student (in db it will be users)
+=======
+id name email image password fee approved('yes', 'no') batch_id
+
+batch
+=====
+id name
+
+subject
+=======
+id name teacher_id batch_id
+
+section
+=======
+id name subject_id
+
+file
+====
+id name file_path section_id
+
+form
+====
+id name subject_id
+
+upload
+======
+id file_path form_id user_id
