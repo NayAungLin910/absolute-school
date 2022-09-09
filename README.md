@@ -58,3 +58,21 @@ Teachers will be able to search only teacher and student accounts. From the asso
 <p align="justify">
 Students will be able to download files the teachers uploaded at the sections of the associated subjects. They will also be able to submit multiple files in the forms the teachers created. 
 </p>
+<br/>
+<h3>Some of the interfaces of the web app</h3>
+<br/>
+<img align="center" alt="statistics" src="https://github.com/NayAungLin910/absolute-school/blob/master/public/icons/statistics.png" />
+<h4 align="center">Various statistics</h4>
+<br/>
+<img align="center" alt="search student" src="https://github.com/NayAungLin910/absolute-school/blob/master/public/icons/search_student.png" />
+<h4 align="center">Searching student accounts</h4>
+<br/>
+<img align="center" alt="subject_view" src="https://github.com/NayAungLin910/absolute-school/blob/master/public/icons/subject_view.png" />
+<h4 align="center">Viewing a subject</h4>
+<br/>
+<img align="center" alt="subjects" src="https://github.com/NayAungLin910/absolute-school/blob/master/public/icons/subjects.png" />
+<h4 align="center">Available subjects</h4>
+<br/>
+<img align="center" alt="profile" src="https://github.com/NayAungLin910/absolute-school/blob/master/public/icons/profile.png" />
+<h4 align="center">Profile of the current user</h4>
+
