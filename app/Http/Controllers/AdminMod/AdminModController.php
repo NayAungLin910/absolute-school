@@ -26,11 +26,26 @@ class AdminModController extends Controller
 
     public function approveModerator(Request $request)
     {
-        $moderators = Moderator::latest()->where('approve', 'no');
-        $moderators = $moderators->paginate('10');
+        $moderators = Moderator::where('approve', 'no');
+
         $startdate = "";
         $enddate = "";
-        return view('admin-mod.approve-moderator', compact('moderators', 'startdate', 'enddate'));
+        $search = "";
+
+        if ($request->search) {
+            $moderators = $moderators->where("email", "like", "%$request->search%");
+            $search = $request->search;
+        }
+
+        if ($request->startdate && $request->enddate) {
+            $moderators = $moderators->whereBetween('created_at', [$request->startdate . " 00:00:00", $request->enddate . " 23:59:59"]);
+            $startdate = $request->startdate;
+            $enddate = $request->enddate;
+        }
+
+        $moderators = $moderators->orderBy('id', 'DESC')->paginate('10');
+
+        return view('admin-mod.approve-moderator', compact('moderators', 'startdate', 'enddate', 'search'));
     }
 
     public function postApproveModerator(Request $request)
@@ -58,39 +73,30 @@ class AdminModController extends Controller
         }
     }
 
-    public function searchApproveModerator(Request $request)
-    {
-        $moderators = Moderator::where('approve', 'no');
-        $request->validate([
-            "search" => "required"
-        ]);
-
-        if ($request->search) {
-            $moderators = $moderators->where("email", "like", "%$request->search%");
-        }
-
-        $startdate = "";
-        $enddate = "";
-
-        if ($request->startdate && $request->enddate) {
-            $moderators = $moderators->whereBetween('created_at', [$request->startdate . " 00:00:00", $request->enddate . " 23:59:59"]);
-            $startdate = $request->startdate;
-            $enddate = $request->enddate;
-        }
-
-        $moderators = $moderators->orderBy('id', 'DESC')->paginate(10);
-        return view('admin-mod.approve-moderator', compact('moderators', 'startdate', 'enddate'));
-    }
-
     #Approve teacher------
 
     public function approveTeacher(Request $request)
     {
-        $teachers = Teacher::latest()->where('approve', 'no');
-        $teachers = $teachers->paginate('10');
+        $teachers = Teacher::where('approve', 'no');
+
         $startdate = "";
         $enddate = "";
-        return view('admin-mod.approve-teacher', compact('teachers', 'startdate', 'enddate'));
+        $search = "";
+
+        if ($request->search) {
+            $teachers = $teachers->where("email", "like", "%$request->search%");
+            $search = $request->search;
+        }
+
+        if ($request->startdate && $request->enddate) {
+            $teachers = $teachers->whereBetween('created_at', [$request->startdate . " 00:00:00", $request->enddate . " 23:59:59"]);
+            $startdate = $request->startdate;
+            $enddate = $request->enddate;
+        }
+
+        $teachers = $teachers->orderBy("id", "DESC")->paginate(10);
+
+        return view('admin-mod.approve-teacher', compact('teachers', 'startdate', 'enddate', 'search'));
     }
 
     public function postApproveTeacher(Request $request)
@@ -121,39 +127,29 @@ class AdminModController extends Controller
         }
     }
 
-    public function searchApproveTeacher(Request $request)
-    {
-        $teachers = Teacher::where('approve', 'no');
-        $request->validate([
-            "search" => "required"
-        ]);
-
-        if ($request->search) {
-            $teachers = $teachers->where("email", "like", "%$request->search%");
-        }
-
-        $startdate = "";
-        $enddate = "";
-
-        if ($request->startdate && $request->enddate) {
-            $teachers = $teachers->whereBetween('created_at', [$request->startdate . " 00:00:00", $request->enddate . " 23:59:59"]);
-            $startdate = $request->startdate;
-            $enddate = $request->enddate;
-        }
-
-        $teachers = $teachers->orderBy('id', 'DESC')->paginate(10);
-        return view('admin-mod.approve-teacher', compact('teachers', 'startdate', 'enddate'));
-    }
-
     #Approve student------
 
     public function approveStudent(Request $request)
     {
-        $students = User::latest()->where('approve', 'no');
-        $students = $students->paginate('10');
+        $students = User::where('approve', 'no');
         $startdate = "";
         $enddate = "";
-        return view('admin-mod.approve-student', compact('students', 'startdate', 'enddate'));
+        $search = "";
+
+        if ($request->search) {
+            $students = $students->where("email", "like", "%$request->search%");
+            $search = $request->search;
+        }
+
+        if ($request->startdate && $request->enddate) {
+            $students = $students->whereBetween('created_at', [$request->startdate . " 00:00:00", $request->enddate . " 23:59:59"]);
+            $startdate = $request->startdate;
+            $enddate = $request->enddate;
+        }
+
+        $students = $students->orderBy('id', 'DESC')->paginate(10);
+
+        return view('admin-mod.approve-student', compact('students', 'startdate', 'enddate', 'search'));
     }
 
     public function postApproveStudent(Request $request)
@@ -182,29 +178,5 @@ class AdminModController extends Controller
         } else {
             return redirect()->back()->with("error", "Student was not found!");
         }
-    }
-
-    public function searchApproveStudent(Request $request)
-    {
-        $students = User::where('approve', 'no');
-        $request->validate([
-            "search" => "required"
-        ]);
-
-        if ($request->search) {
-            $students = $students->where("email", "like", "%$request->search%");
-        }
-
-        $startdate = "";
-        $enddate = "";
-
-        if ($request->startdate && $request->enddate) {
-            $students = $students->whereBetween('created_at', [$request->startdate . " 00:00:00", $request->enddate . " 23:59:59"]);
-            $startdate = $request->startdate;
-            $enddate = $request->enddate;
-        }
-
-        $students = $students->orderBy('id', 'DESC')->paginate(10);
-        return view('admin-mod.approve-student', compact('students', 'startdate', 'enddate'));
     }
 }

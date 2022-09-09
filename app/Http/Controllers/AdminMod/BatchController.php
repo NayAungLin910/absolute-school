@@ -13,13 +13,28 @@ class BatchController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $startdate = null;
-        $enddate = null;
+        $batches = Batch::orderBy('id', 'DESC');
 
-        $batches = Batch::latest()->withCount('student', 'subject')->paginate(10);
-        return view('admin-mod.batch.index-batch', compact('batches', 'startdate', 'enddate'));
+        $startdate = "";
+        $enddate = "";
+        $search = "";
+
+        if ($request->search) {
+            $batches = $batches->where("name", "like", "%$request->search%");
+            $search = $request->search;
+        }
+
+        if ($request->startdate && $request->enddate) {
+            $batches =  $batches->whereBetween('created_at', [$request->startdate . " 00:00:00", $request->enddate . " 23:59:59"]);
+            $startdate = $request->startdate;
+            $enddate = $request->enddate;
+        }
+
+        $batches = $batches->withCount('student', 'subject')->paginate(10);
+
+        return view('admin-mod.batch.index-batch', compact('batches', 'startdate', 'enddate', 'search'));
     }
 
     /**
@@ -121,30 +136,5 @@ class BatchController extends Controller
         } else {
             return redirect()->route('batch.index')->with("error", "Batch not found!");
         }
-    }
-
-    public function searchBatch(Request $request)
-    {
-        $request->validate([
-            "search" => "required",
-        ]);
-
-        $batches = Batch::orderBy('id', 'DESC');
-
-        if ($request->search) {
-            $batches = $batches->where("name", "like", "%$request->search%");
-        }
-
-        $startdate = null;
-        $enddate = null;
-
-        if ($request->startdate && $request->enddate) {
-            $batches =  $batches->whereBetween('created_at', [$request->startdate . " 00:00:00", $request->enddate . " 23:59:59"]);
-            $startdate = $request->startdate;
-            $enddate = $request->enddate;
-        }
-
-        $batches =  $batches->paginate(10);
-        return view('admin-mod.batch.index-batch', compact('batches', 'startdate', 'enddate'));
     }
 }

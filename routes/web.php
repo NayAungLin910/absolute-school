@@ -1,21 +1,25 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+
+// redirect to related routes from the main route
+Route::get('/', [\App\Http\Controllers\AuthController::class, "redirect"])->middleware(['AuthOnly']);
 
 // routes before user is not logged in
 Route::middleware(['NotAuth'])->group(function () {
     // admin login
     Route::get('/login/admin', [App\Http\Controllers\AuthController::class, "adminLogin"]);
     Route::post('/login/admin', [\App\Http\Controllers\AuthController::class, "postAdminLogin"]);
-    
+
     // moderator login
     Route::get('/login/moderator', [\App\Http\Controllers\AuthController::class, "moderatorLogin"]);
     Route::post('/login/moderator', [\App\Http\Controllers\AuthController::class, "postModeratorLogin"]);
-    
+
     // teacher login
     Route::get('/login/teacher', [\App\Http\Controllers\AuthController::class, "teacherLogin"]);
     Route::post('/login/teacher', [\App\Http\Controllers\AuthController::class, "postTeacherLogin"]);
-    
+
     // student login
     Route::get('/login/student', [\App\Http\Controllers\AuthController::class, "studentLogin"]);
     Route::post('/login/student', [\App\Http\Controllers\AuthController::class, "postStudentLogin"]);
@@ -23,11 +27,11 @@ Route::middleware(['NotAuth'])->group(function () {
     // moderator register
     Route::get('/register/moderator', [\App\Http\Controllers\AuthController::class, "moderatorRegister"]);
     Route::post('/register/moderator', [\App\Http\Controllers\AuthController::class, "postModeratorRegister"]);
-    
+
     // teacher register
     Route::get('/register/teacher', [\App\Http\Controllers\AuthController::class, "teacherRegister"]);
     Route::post('/register/teacher', [\App\Http\Controllers\AuthController::class, "postTeacherRegister"]);
-    
+
     // student register
     Route::get('/register/student', [\App\Http\Controllers\AuthController::class, "studentRegister"]);
     Route::post('/register/student', [\App\Http\Controllers\AuthController::class, "postStudentRegister"]);
@@ -37,7 +41,7 @@ Route::middleware(['NotAuth'])->group(function () {
 Route::middleware(['AuthOnly'])->group(function () {
     // user logout
     Route::get('/logout', [\App\Http\Controllers\AuthController::class, "logout"]);
-    
+
     // profile
     Route::get('/profile', [\App\Http\Controllers\AuthController::class, "profile"]);
 });
@@ -46,62 +50,54 @@ Route::middleware(['AuthOnly'])->group(function () {
 Route::prefix('admin-mod')->middleware(['AdminMod'])->group(function () {
     // statistics 
     Route::get('/statistics', [\App\Http\Controllers\AdminMod\AdminModController::class, "statistics"]);
-    
+
     // moderator approve routes
     Route::get('/approve-moderator', [\App\Http\Controllers\AdminMod\AdminModController::class, "approveModerator"]);
     Route::post('/approve-moderator/approve', [\App\Http\Controllers\AdminMod\AdminModController::class, "postApproveModerator"]);
     Route::post('/approve-moderator/decline', [\App\Http\Controllers\AdminMod\AdminModController::class, "postDeclineModerator"]);
-    Route::post('/approve-moderator/search', [\App\Http\Controllers\AdminMod\AdminModController::class, "searchApproveModerator"])->name('admin-mod.approve-moderator.search');
-    
+
     // teacher approve routes
     Route::get('/approve-teacher', [\App\Http\Controllers\AdminMod\AdminModController::class, "approveTeacher"]);
     Route::post('/approve-teacher/approve', [\App\Http\Controllers\AdminMod\AdminModController::class, "postApproveTeacher"]);
     Route::post('/approve-teacher/decline', [\App\Http\Controllers\AdminMod\AdminModController::class, "postDeclineTeacher"]);
-    Route::post('/approve-teacher/search', [\App\Http\Controllers\AdminMod\AdminModController::class, "searchApproveTeacher"])->name('admin-mod.approve-teacher.search');
-    
+
     // student approve routes
     Route::get('/approve-student', [\App\Http\Controllers\AdminMod\AdminModController::class, "approveStudent"]);
     Route::post('/approve-student/approve', [\App\Http\Controllers\AdminMod\AdminModController::class, "postApproveStudent"]);
     Route::post('/approve-student/decline', [\App\Http\Controllers\AdminMod\AdminModController::class, "postDeclineStudent"]);
-    Route::post('/approve-student/search', [\App\Http\Controllers\AdminMod\AdminModController::class, "searchApproveStudent"])->name('admin-mod.approve-student.search');
-    
+
     // batch routes
     Route::resource('batch', '\App\Http\Controllers\AdminMod\BatchController');
-    Route::post('/batch-search', [\App\Http\Controllers\AdminMod\BatchController::class, "searchBatch"]);
-    
+
     // subject routes
     Route::get('/subject', [\App\Http\Controllers\AdminMod\SubjectController::class, "subject"]);
-    Route::post('/subject', [\App\Http\Controllers\AdminMod\SubjectController::class, "searchSubject"]);
     Route::get('/subject/create', [\App\Http\Controllers\AdminMod\SubjectController::class, "createSubject"]);
     Route::post('/subject/create', [\App\Http\Controllers\AdminMod\SubjectController::class, "postCreateSubject"]);
     Route::post('/subject/delete', [\App\Http\Controllers\AdminMod\SubjectController::class, "deleteSubject"]);
     Route::get('/subject/edit/{id}', [\App\Http\Controllers\AdminMod\SubjectController::class, "editSubject"]);
     Route::post('/subject/edit', [\App\Http\Controllers\AdminMod\SubjectController::class, "postEditSubject"]);
-    
+
     // student batch assign routes
     Route::get('/search-student/assign/batch/{id}', [\App\Http\Controllers\SearchController::class, "assignBatch"]);
     Route::post('/search-student/assign/batch/{id}', [\App\Http\Controllers\SearchController::class, "postAssignBatch"]);
-    
+
     // student account delete route
     Route::post('/search-student/delete', [\App\Http\Controllers\SearchController::class, "postDeleteStudent"]);
-    
+
     // teacher account delete route
     Route::post('/search-teacher/delete', [\App\Http\Controllers\SearchController::class, "postDeleteTeacher"]);
-    
+
     // search moderator accounts route
     Route::get('/search-moderator', [\App\Http\Controllers\SearchController::class, "searchModerator"]);
-    Route::post('/search-moderator', [\App\Http\Controllers\SearchController::class, "postSearchModerator"]);
 });
 
 // outes for admins, moderators and teachers
 Route::prefix('admin-mod-teacher')->middleware(['AdminModTeacher'])->group(function () {
     // search student
     Route::get('/search-student', [\App\Http\Controllers\SearchController::class, "searchStudent"]);
-    Route::post('/search-student', [\App\Http\Controllers\SearchController::class, "postSearchStudent"]);
-    
+
     // search teacher
     Route::get('/search-teacher', [\App\Http\Controllers\SearchController::class, "searchTeacher"]);
-    Route::post('/search-teacher', [\App\Http\Controllers\SearchController::class, "postSearchTeacher"]);
 });
 
 // routes only for admins
@@ -129,6 +125,7 @@ Route::prefix('teacher')->middleware(['TeacherOnly'])->group(function () {
     Route::get('/edit-section/{id}', [\App\Http\Controllers\Teacher\SectionController::class, "editSection"]);
     Route::post('/edit-section', [\App\Http\Controllers\Teacher\SectionController::class, "postEditSection"]);
     Route::post('/delete-section', [\App\Http\Controllers\Teacher\SectionController::class, "postDeleteSection"]);
+
     // files of the section
     Route::get('/add-file/{id}', [\App\Http\Controllers\Teacher\SectionController::class, "addFile"]);
     Route::post('/add-file', [\App\Http\Controllers\Teacher\SectionController::class, "postAddFile"]);

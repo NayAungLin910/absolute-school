@@ -13,7 +13,7 @@
         <div class="col-sm-12">
             <h3 class="text-white">Subjects</h3>
             <div class="row">
-                <form class="d-inline" action="{{ url('/admin-mod/subject') }}" method="POST">
+                <form class="d-inline" action="{{ url('/admin-mod/subject') }}" method="GET">
                     @csrf
                     <div class="col-sm-12">
                         <div class="table-responsive" style="max-width: 93vw">
@@ -40,8 +40,7 @@
                     <div class="col-sm-6 mt-3">
                         <div class="input-group mb-3">
                             <input value="{{ $search }}" type="text" name="search" class="form-control"
-                                placeholder="Search by name" aria-label="Search by name" aria-describedby="basic-addon2"
-                                required>
+                                placeholder="Search by name" aria-label="Search by name" aria-describedby="basic-addon2">
                             <div class="input-group-append">
                                 <button class="btn btn-primary" type="submit">
                                     <i class="fa-solid fa-magnifying-glass"></i>

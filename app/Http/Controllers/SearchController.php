@@ -16,34 +16,20 @@ use Illuminate\Support\Facades\File as FileHelp;
 class SearchController extends Controller
 {
     // search student
-    public function searchStudent()
+    public function searchStudent(Request $request)
     {
-        $students = User::where('approve', 'yes')->orderBy('id', 'DESC')->with('batch')->paginate(10);
+        $students = User::where('approve', 'yes')->orderBy('id', 'DESC');
         $batches = Batch::orderBy('name')->get();
         $startdate = "";
         $enddate = "";
         $search = "";
         $chose_batch_id = "";
         $unassigned = false;
-        return view('search.search-student', compact('students', 'batches', 'startdate', 'enddate', 'search', 'chose_batch_id', 'unassigned'));
-    }
-
-    public function postSearchStudent(Request $request)
-    {
-        $students = User::where('approve', 'yes')->with('batch');
-        $batches = Batch::orderBy('name')->get();
-        $request->validate([
-            "search" => "required"
-        ]);
-
-        $search = "";
-
+        
         if ($request->search) {
             $search = $request->search;
             $students = $students->where("email", "like", "%$request->search%");
         }
-
-        $chose_batch_id = "";
 
         if ($request->batch) {
             $chose_batch_id = $request->batch;
@@ -52,24 +38,19 @@ class SearchController extends Controller
             });
         }
 
-        $startdate = "";
-        $enddate = "";
-
-
         if ($request->startdate && $request->enddate) {
             $students = $students->whereBetween('created_at', [$request->startdate . " 00:00:00", $request->enddate . " 23:59:59"]);
             $startdate = $request->startdate;
             $enddate = $request->enddate;
         }
 
-        $unassigned = false;
-
         if ($request->unassigned) {
             $unassigned = true;
             $students = $students->whereDoesntHave('batch');
         }
 
-        $students = $students->orderBy('id', 'DESC')->paginate(10);
+        $students = $students->with('batch')->paginate(10);
+
         return view('search.search-student', compact('students', 'batches', 'startdate', 'enddate', 'search', 'chose_batch_id', 'unassigned'));
     }
 
@@ -124,22 +105,11 @@ class SearchController extends Controller
         }
     }
     // search teacher
-    public function searchTeacher()
+    public function searchTeacher(Request $request)
     {
-        $teachers = Teacher::where('approve', 'yes')->orderBy('id', 'DESC')->paginate(10);
+        $teachers = Teacher::where('approve', 'yes')->orderBy('id', 'DESC');
         $startdate = "";
         $enddate = "";
-        $search = "";
-        return view('search.search-teacher', compact('teachers', 'startdate', 'enddate', 'search'));
-    }
-
-    public function postSearchTeacher(Request $request)
-    {
-        $teachers = Teacher::where('approve', 'yes');
-        $request->validate([
-            "search" => "required"
-        ]);
-
         $search = "";
 
         if ($request->search) {
@@ -147,17 +117,14 @@ class SearchController extends Controller
             $teachers = $teachers->where("email", "like", "%$request->search%");
         }
 
-        $startdate = "";
-        $enddate = "";
-
-
         if ($request->startdate && $request->enddate) {
             $teachers = $teachers->whereBetween('created_at', [$request->startdate . " 00:00:00", $request->enddate . " 23:59:59"]);
             $startdate = $request->startdate;
             $enddate = $request->enddate;
         }
 
-        $teachers = $teachers->orderBy('id', 'DESC')->paginate(10);
+        $teachers = $teachers->paginate(10);
+
         return view('search.search-teacher', compact('teachers', 'startdate', 'enddate', 'search'));
     }
 
@@ -202,22 +169,11 @@ class SearchController extends Controller
         }
     }
     // search moderator
-    public function searchModerator()
+    public function searchModerator(Request $request)
     {
-        $moderators = Moderator::where('approve', 'yes')->orderBy('id', 'DESC')->paginate(10);
+        $moderators = Moderator::where('approve', 'yes')->orderBy('id', 'DESC');
         $startdate = "";
         $enddate = "";
-        $search = "";
-        return view('search.search-moderator', compact('moderators', 'startdate', 'enddate', 'search'));
-    }
-
-    public function postSearchModerator(Request $request)
-    {
-        $moderators = Moderator::where('approve', 'yes');
-        $request->validate([
-            "search" => "required"
-        ]);
-
         $search = "";
 
         if ($request->search) {
@@ -225,17 +181,14 @@ class SearchController extends Controller
             $moderators = $moderators->where("email", "like", "%$request->search%");
         }
 
-        $startdate = "";
-        $enddate = "";
-
-
         if ($request->startdate && $request->enddate) {
             $moderators = $moderators->whereBetween('created_at', [$request->startdate . " 00:00:00", $request->enddate . " 23:59:59"]);
             $startdate = $request->startdate;
             $enddate = $request->enddate;
         }
 
-        $moderators = $moderators->orderBy('id', 'DESC')->paginate(10);
+        $moderators = $moderators->paginate(10);
+
         return view('search.search-moderator', compact('moderators', 'startdate', 'enddate', 'search'));
     }
 

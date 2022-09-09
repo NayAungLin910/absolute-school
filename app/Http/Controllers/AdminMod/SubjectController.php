@@ -14,30 +14,17 @@ use Illuminate\Support\Facades\File as FileHelp;
 
 class SubjectController extends Controller
 {
-    public function subject()
+    public function subject(Request $request)
     {
-        $subjects = Subject::orderBy('id', 'DESC')->with('moderator', 'admin', 'teacher', 'batch')->paginate(10);
+        $subjects = Subject::orderBy('id', 'DESC');
+        $search = "";
         $startdate = "";
         $enddate = "";
-        $search = "";
-        return view('admin-mod.subject.index-subject', compact('subjects', 'startdate', 'enddate', 'search'));
-    }
-
-    public function searchSubject(Request $request)
-    {
-        $request->validate([
-            "search" => "required",
-        ]);
-
-        $search = "";
 
         if ($request->search) {
-            $subjects = Subject::where("name", "like", "%$request->search%");
+            $subjects = $subjects->where("name", "like", "%$request->search%");
             $search = $request->search;
         }
-
-        $startdate = "";
-        $enddate = "";
 
         if ($request->startdate && $request->enddate) {
             $subjects =  $subjects->whereBetween('created_at', [$request->startdate . " 00:00:00", $request->enddate . " 23:59:59"]);
@@ -45,8 +32,7 @@ class SubjectController extends Controller
             $enddate = $request->enddate;
         }
 
-        $subjects = $subjects->orderBy('id', 'DESC')->paginate(10);
-
+        $subjects = $subjects->with('moderator', 'admin', 'teacher', 'batch')->paginate(10);
         return view('admin-mod.subject.index-subject', compact('subjects', 'startdate', 'enddate', 'search'));
     }
 

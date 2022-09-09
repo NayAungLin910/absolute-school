@@ -248,4 +248,13 @@ class AuthController extends Controller
         }
         return view('auth.profile', compact('subject_count', 'batch_count', 'batch_name'));
     }
+
+    public function redirect()
+    {
+        if (Auth::check() || Auth::guard('teacher')->check()) {
+            return redirect('/teacher-student/your-subjects');
+        } elseif (Auth::guard('moderator')->check() || Auth::guard('admin')->check()) {
+            return redirect('/admin-mod/statistics');
+        }
+    }
 }
